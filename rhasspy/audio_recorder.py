@@ -186,6 +186,7 @@ class PyAudioRecorder(RhasspyActor):
 
     def to_recording(self, from_state: str) -> None:
         """Transition to recording state."""
+        print(">>>> About to grab mic")
         try:
             import pyaudio
 
@@ -260,6 +261,7 @@ class PyAudioRecorder(RhasspyActor):
             and (len(self.receivers) == 0)
             and (len(self.buffers) == 0)
         ):
+            print(">>>> Releasing mic due to auto-cleanup")
             # Terminate audio recording
             if self.mic is not None:
                 self.mic.stop_stream()
@@ -274,6 +276,7 @@ class PyAudioRecorder(RhasspyActor):
 
     def to_stopped(self, from_state: str) -> None:
         """Transition to stopped state."""
+        print(">>>> Releasing mic due to explicit stop")
         try:
             if self.mic is not None:
                 self.mic.stop_stream()
